@@ -1,19 +1,22 @@
 import React, { useState } from "react";
 import { useNavigate, Link, Navigate } from "react-router-dom";
+import { useAuth } from "../providers/AuthProvider";
 
 const SignInPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { user, login } = useAuth();
 
-  if (localStorage.getItem("auth")) {
+  if (user) {
     return <Navigate to="/home" replace />;
   }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (email && password) {
-      localStorage.setItem("auth", "true");
+      // Here you can add real authentication logic
+      login({ name: email });
       navigate("/home");
     }
   };

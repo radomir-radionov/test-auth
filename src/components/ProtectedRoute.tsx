@@ -1,15 +1,16 @@
 import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
+import { useAuth } from "../providers/AuthProvider";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  const isAuthenticated = !!localStorage.getItem("auth");
+  const { user } = useAuth();
   const location = useLocation();
 
-  if (!isAuthenticated) {
+  if (!user) {
     return <Navigate to="/signin" state={{ from: location }} replace />;
   }
 
